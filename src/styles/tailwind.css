@@ -1,0 +1,41 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: var(--font-inter), sans-serif;
+  --font-sans--font-feature-settings: 'cv11';
+  --color-accent: var(--color-blue-600);
+  --color-accent-foreground: var(--color-white);
+  --color-text-primary: var(--color-zinc-950);
+  --color-text-muted: var(--color-zinc-500);
+  --color-border-subtle: var(--color-zinc-200);
+  --color-surface-page: var(--color-zinc-100);
+  --color-surface-card: var(--color-white);
+  --color-surface-muted: var(--color-zinc-50);
+  --color-success: var(--color-emerald-600);
+  --color-warning: var(--color-amber-500);
+  --color-danger: var(--color-red-600);
+}
+
+:root {
+  --chart-series-1: var(--color-emerald-500);
+  --chart-series-2: var(--color-blue-500);
+  --chart-series-3: var(--color-amber-400);
+  --chart-series-4: var(--color-rose-500);
+  --chart-series-5: var(--color-violet-400);
+  --chart-fallback: var(--color-blue-500);
+  --chart-stroke: var(--color-zinc-950);
+  --slider-fill: var(--color-blue-600);
+  --slider-track: var(--color-zinc-300);
+}
+
+.dark {
+  --chart-series-1: var(--color-emerald-400);
+  --chart-series-2: var(--color-blue-400);
+  --chart-series-3: var(--color-amber-300);
+  --chart-series-4: var(--color-rose-400);
+  --chart-series-5: var(--color-violet-300);
+  --chart-fallback: var(--color-blue-400);
+  --chart-stroke: var(--color-zinc-200);
+  --slider-fill: var(--color-blue-500);
+  --slider-track: var(--color-zinc-700);
+}

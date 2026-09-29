@@ -1,0 +1,141 @@
+schema: spec-driven
+
+context: |
+  PPR / Trace4good - frontend de la plataforma de financiamiento y verificacion
+  de proyectos de LACNet.
+
+  Stack
+  - Next.js 15 (App Router) + React 19 + TypeScript strict
+  - Tailwind CSS 4, Headless UI, Heroicons, Recharts, Motion
+  - Autenticacion: Keycloak (keycloak-js + @react-keycloak/web), cliente publico
+  - Tests: Vitest + Testing Library. Entorno 'node' por defecto; los tests de
+    componentes declaran // @vitest-environment jsdom en la primera linea
+
+  Dominio
+  - Cuatro roles con dashboard propio: sponsor, provider, user, verifier
+    (existen ademas 'funder' y 'superadmin', hoy sin superficie de UI completa)
+  - Jerarquia: project -> phase (stage) -> task -> evidence
+  - Ademas: contributions, audit revisions y pruebas ancladas en blockchain (hash)
+  - El backend es la fuente de verdad de enums y contratos; no inventar valores
+
+  Convenciones
+  - Archivos en kebab-case, componentes PascalCase, hooks con prefijo use,
+    constantes en SCREAMING_SNAKE
+  - Alias de imports: @/* -> src/*
+  - Tests colocados junto al codigo: *.test.ts / *.test.tsx
+  - Prettier: sin punto y coma, comillas simples, printWidth 120
+  - Commits: Conventional Commits (feat, fix, docs, style, refactor, test,
+    chore, perf, a11y)
+  - Codigo, nombres y comentarios SIEMPRE en ingles, incluidos los archivos de
+    configuracion como .env.example. La documentacion en docs/ puede ir en
+    espanol
+  - Los comentarios van arriba de lo que explican: encima de la funcion, la
+    clase o el bloque de lineas. Nunca intercalados entre lineas de codigo ni
+    al final de una linea
+
+  Restricciones
+  - La imagen Docker se construye una vez y se promueve entre develop, staging
+    y main. Por eso la configuracion se lee en runtime desde public/env.js
+    (window.__ENV en cliente) y NO desde variables NEXT_PUBLIC_*, que Next
+    inlinea en build. Cualquier propuesta debe respetar esto.
+  - No existe configuracion de ESLint todavia; `npm run lint` no es ejecutable.
+    No asumir que el linter valida nada.
+  - La autorizacion real vive en el backend. Los guards de rol del frontend
+    son de UX, no de seguridad.
+  - Compatibilidad con backend: los campos de formulario y los valores de enum
+    deben coincidir exactamente con lo que el backend espera. No introducir
+    divergencias de enums que solo existan en frontend.
+  - Seguridad brownfield: preservar las capacidades de sponsor y provider que ya
+    funcionan. Correcciones acotadas, minimizando regresiones.
+  - Priorizar correccion funcional y consistencia por encima de refactors
+    amplios. Lo que se pide debe llegar completo a produccion.
+  - Mantenerse dentro de Next.js App Router + TypeScript + Tailwind. Evitar
+    cambios a nivel de framework.
+
+  Principios de diseno
+  - Priorizar claridad sobre ornamento visual en tablas y formularios operativos.
+  - Mantener los estados de interaccion explicitos: hover, focus, disabled,
+    loading, success y error deben ser visibles.
+  - Preservar consistencia de wording, etiquetas de estado, espaciado y
+    affordances de control entre componentes equivalentes.
+  - Mantener defaults accesibles: foco de teclado visible, areas tactiles
+    practicables y contraste legible.
+  - Aplicar pulido de bajo riesgo mejorando consistencia y feedback, sin alterar
+    los flujos ya establecidos.
+  - Listado completo con el contexto de producto en docs/design-context.md
+
+  Nivel de calidad esperado
+  - Pulido de produccion sobre un MVP existente: refinamientos de alta confianza
+    y baja regresion, no rediseno.
+
+  Deuda conocida - no replicar estos patrones
+  - Forks por copy-paste del tipo *-with-new-X-button (hasta 2076 lineas).
+    Preferir un componente con prop headerAction.
+  - Literales de estado sueltos ('pending', 'inprogress', ...) repartidos en
+    17 archivos. Usar el modulo de estado centralizado, no agregar literales.
+  - La prioridad de roles esta duplicada en 5 lugares con 3 definiciones
+    distintas. Centralizar antes de tocarla.
+  - Ver docs/auditoria-2026-09-22.md y docs/analisis-hardcodeos-2026-09-22.md
+
+rules:
+  proposal:
+    - Incluir siempre una seccion "Non-goals"
+    - Indicar si el cambio afecta a uno, varios o todos los roles
+    - >-
+      Un grep da candidatos, nunca conclusiones. Todo archivo:linea que se cite
+      tiene que haberse leido en esta sesion con su contexto alrededor, no
+      inferido de una coincidencia de busqueda.
+    - >-
+      Antes de describir un archivo, contar cuantas instancias hay de lo que se
+      analiza (tablas, bloques, exports, declaraciones) y decir el numero. Leer
+      dos de tres y hablar de "la tabla" produce diagnosticos falsos.
+    - >-
+      La salida de un script de analisis es una hipotesis, no un inventario.
+      Verificar por muestreo antes de citarla, y decir que herramienta la
+      produjo y cual es su modo de fallo conocido.
+    - >-
+      No afirmar como funciona una herramienta externa (git, el bundler, una
+      convencion) sin verificarlo. Si no se puede verificar, decir que es una
+      suposicion.
+  specs:
+    - Referenciar archivos reales con su ruta desde la raiz del repo
+    - Si el cambio toca enums o estados, nombrar el contrato de backend implicado
+  design:
+    - Registrar la alternativa descartada y por que
+    - Declarar de forma explicita el impacto en el arranque y en la config de entorno
+  tasks:
+    - Tareas de como maximo 2 horas
+    - >-
+      Si el cambio toca codigo, la ultima tarea debe verificar con
+      `npm run build && npm test`. Si no lo toca (documentacion, config,
+      movimiento de archivos), no incluir esa verificacion, porque no falsa
+      ninguna hipotesis y solo consume tiempo.
+    - >-
+      Cada tarea verifica con lo que corresponda a lo que hizo, por ejemplo
+      que el archivo existe, que el enlace resuelve o que el YAML parsea.
+    - >-
+      Incluir siempre una tarea final que cree summary.md en la carpeta del
+      cambio.
+    - >-
+      Una tarea que nombra una linea cita lo que hay ahi, no lo que se supone
+      que hay. Si al ejecutarla el contenido no coincide, parar y corregir los
+      artefactos antes de tocar codigo.
+
+operations:
+  apply:
+    guidance:
+      - No introducir console.log; el repo ya arrastra 106
+      - >-
+        Correr `npm test` cuando la tarea pudo haber cambiado el comportamiento,
+        no despues de cada tarea.
+      - >-
+        Al terminar el cambio, crear summary.md en la carpeta del cambio. Debe
+        tener dos secciones. Una describe que se hizo, por que, y cualquier
+        desvio respecto del plan. La otra es la descripcion para el commit, de
+        30 palabras como maximo, lista para copiar y pegar.
+      - >-
+        El agente no ejecuta git. Los commits los hace la usuaria, usando la
+        descripcion que quedo en summary.md.
+  archive:
+    guidance:
+      - Si el cambio invalida algo de docs/, actualizarlo en el mismo archivo

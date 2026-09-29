@@ -1,0 +1,14 @@
+{
+  "hosting": {
+    "target": "ppr",
+    "rewrites": [
+      {
+        "source": "**",
+        "run": {
+          "serviceId": "ppr-frontend-next",
+          "region": "us-central1"
+        }
+      }
+    ]
+  }
+}
