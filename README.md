@@ -1,6 +1,6 @@
 # PPR Frontend
 
-A modern Next.js 15 frontend for the PPR platform, providing role-based dashboards for project funding management, evidence tracking, and contribution monitoring.
+A modern Next.js 15 frontend for the PPR (Pay-for-Results Program) platform, providing role-based dashboards for project funding management, evidence tracking, and contribution monitoring.
 
 ## Tech Stack
 
