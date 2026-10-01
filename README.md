@@ -1,6 +1,6 @@
 # PPR Frontend
 
-A modern Next.js 15 frontend for the PPR (Programa de Participación Regional) platform, providing role-based dashboards for project funding management, evidence tracking, and contribution monitoring.
+A modern Next.js 15 frontend for the PPR platform, providing role-based dashboards for project funding management, evidence tracking, and contribution monitoring.
 
 ## Tech Stack
 
@@ -96,41 +96,41 @@ npm run start
 
 - The runtime reads API and Keycloak config from `src/lib/api-config.ts` and `src/lib/keycloak.ts`.
 
-### Variables de entorno (`env.js`)
+### Environment variables (`env.js`)
 
-La aplicación **no usa `.env` directamente en runtime**. En su lugar, utiliza el archivo `public/env.js`, que expone las variables en `window.__ENV`.
+The application **does not read `.env` directly at runtime**. Instead, it uses the `public/env.js` file, which exposes the variables on `window.__ENV`.
 
-**En el pipeline (CI/CD):**
-- El pipeline genera automáticamente `public/env.js` a partir de las variables definidas en Cloud Run.
-- El archivo `.env` se mantiene en el repositorio como referencia de las variables necesarias y es utilizado por el pipeline para la generación de `env.js` usado en la **promoción de imágenes** entre los ambientes (`develop`, `staging`, `main`).
+**In the pipeline (CI/CD):**
+- The pipeline automatically generates `public/env.js` from the variables defined in Cloud Run.
+- The `.env` file is kept in the repository as a reference of the required variables, and the pipeline uses it to generate the `env.js` used for **image promotion** across environments (`develop`, `staging`, `main`).
 
-**En local (desarrollo):**
-- Como no hay pipeline, `public/env.js` debe crearse **manualmente**.
-- Los valores se obtienen del archivo `.env.local` y se escriben en `public/env.js` con el formato:
+**Locally (development):**
+- Since there is no pipeline, `public/env.js` must be created **manually**.
+- Take the values from `.env.local` and write them to `public/env.js` using this format:
 
 ```js
 window.__ENV = {
-  API_URL: '<valor de NEXT_PUBLIC_API_URL del .env.local>',
-  KEYCLOAK_URL: '<valor de NEXT_PUBLIC_KEYCLOAK_URL del .env.local>',
-  KEYCLOAK_REALM: '<valor de NEXT_PUBLIC_KEYCLOAK_REALM del .env.local>',
-  KEYCLOAK_CLIENT_ID: '<valor de NEXT_PUBLIC_KEYCLOAK_CLIENT_ID del .env.local>',
-  INSTANCE_NAME: '<valor de NEXT_PUBLIC_INSTANCE_NAME del .env.local>',
-  WEBSITE_TITLE: '<valor de NEXT_PUBLIC_WEBSITE_TITLE del .env.local>',
-  SIDEBAR_LOGO: '<valor de NEXT_PUBLIC_SIDEBAR_LOGO del .env.local>',
-  SHOW_IMPORT_EVIDENCE: '<valor de NEXT_PUBLIC_SHOW_IMPORT_EVIDENCE del .env.local>',
+  API_URL: '<NEXT_PUBLIC_API_URL value from .env.local>',
+  KEYCLOAK_URL: '<NEXT_PUBLIC_KEYCLOAK_URL value from .env.local>',
+  KEYCLOAK_REALM: '<NEXT_PUBLIC_KEYCLOAK_REALM value from .env.local>',
+  KEYCLOAK_CLIENT_ID: '<NEXT_PUBLIC_KEYCLOAK_CLIENT_ID value from .env.local>',
+  INSTANCE_NAME: '<NEXT_PUBLIC_INSTANCE_NAME value from .env.local>',
+  WEBSITE_TITLE: '<NEXT_PUBLIC_WEBSITE_TITLE value from .env.local>',
+  SIDEBAR_LOGO: '<NEXT_PUBLIC_SIDEBAR_LOGO value from .env.local>',
+  SHOW_IMPORT_EVIDENCE: '<NEXT_PUBLIC_SHOW_IMPORT_EVIDENCE value from .env.local>',
 }
 ```
 
-> **Nota:** hoy `public/env.js` **está versionado** en el repositorio, apuntando al entorno de desarrollo, pese a que
-> el pipeline lo regenera en despliegue. Si ese paso falla, la imagen queda sirviendo la configuración de dev. Ver
-> [`docs/auditoria-2026-09-22.md`](./docs/auditoria-2026-09-22.md).
+> **Note:** `public/env.js` is currently **committed** to the repository, pointing to the development environment,
+> even though the pipeline regenerates it on deploy. If that step fails, the image ends up serving the dev
+> configuration.
 
 ## Docker
 
-> **Importante:** `npm run build` requiere las variables `NEXT_PUBLIC_*` presentes en tiempo de compilación, porque
-> `src/lib/app-config.ts` las lee desde `process.env` al prerenderizar `/forgot-password` y `/register`. El
-> `Dockerfile` no declara ningún `ARG`/`ENV`, así que el comando de abajo falla en un checkout limpio hasta que se
-> inyecten. Detalle y arreglo propuesto en [`docs/auditoria-2026-09-22.md`](./docs/auditoria-2026-09-22.md).
+> **Important:** `npm run build` requires the `NEXT_PUBLIC_*` variables to be present at build time, because
+> `src/lib/app-config.ts` reads them from `process.env` when prerendering `/forgot-password` and `/register`. The
+> `Dockerfile` does not declare any `ARG`/`ENV`, so the command below fails on a clean checkout until they are
+> injected.
 
 ### Build and run
 
