@@ -2,6 +2,7 @@
   "name": "ppr-frontend-next",
   "version": "0.1.1",
   "private": true,
+  "author": "Juan Snaider",
   "scripts": {
     "dev": "next dev -p 5173",
     "build": "next build",
