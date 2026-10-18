@@ -255,3 +255,7 @@ To use the custom theme:
 1. Copy `keycloak-login-theme/` to `<KEYCLOAK_HOME>/themes/ppr-theme`
 2. In Keycloak Admin Console, go to **Realm Settings** → **Themes**
 3. Set **Login Theme** to `ppr-theme`
+
+## Third-party licenses
+
+The base UI components in `src/components/` are derived from [Catalyst](https://tailwindcss.com/plus/ui-kit), part of [Tailwind Plus](https://tailwindcss.com/plus), and are subject to the Tailwind Plus license included in [`LICENSE.md`](./LICENSE.md).
