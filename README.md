@@ -256,6 +256,14 @@ To use the custom theme:
 2. In Keycloak Admin Console, go to **Realm Settings** → **Themes**
 3. Set **Login Theme** to `ppr-theme`
 
+## License
+
+This project is licensed under the [IDB Open Source Software License](./LICENSE.md), except for the third-party components listed below.
+
+Copyright © 2026. Inter-American Development Bank ("IDB"). Authorized Use. The procedures and results obtained based on the execution of this software are those programmed by the developers and do not necessarily reflect the views of the IDB, its Board of Executive Directors or the countries it represents, nor those of the IDB Lab Donors Committee or the countries it represents.
+
+Copyright © 2026. Inter-American Development Bank ("IDB"). The Support and Usage Documentation is licensed under the Creative Commons License CC-BY 4.0 license. The opinions expressed in the Support and Usage Documentation are those of its authors and do not necessarily reflect the opinions of the IDB, its Board of Executive Directors, or the countries it represents, nor those of the IDB Lab Donors Committee or the countries it represents.
+
 ## Third-party licenses
 
-The base UI components in `src/components/` are derived from [Catalyst](https://tailwindcss.com/plus/ui-kit), part of [Tailwind Plus](https://tailwindcss.com/plus), and are subject to the Tailwind Plus license included in [`LICENSE.md`](./LICENSE.md).
+The base UI components in `src/components/` are derived from [Catalyst](https://tailwindcss.com/plus/ui-kit), part of [Tailwind Plus](https://tailwindcss.com/plus). They are excluded from the IDB license and remain subject to the Tailwind Plus license included in [`LICENSE-TAILWIND-PLUS.md`](./LICENSE-TAILWIND-PLUS.md).

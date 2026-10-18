@@ -1,8 +1,10 @@
 {
   "name": "ppr-frontend-next",
   "version": "0.1.1",
+  "description": "Next.js frontend for the PPR (Pay-for-Results Program) platform, providing role-based dashboards for project funding management, evidence tracking, and contribution monitoring.",
   "private": true,
   "author": "Juan Snaider",
+  "license": "SEE LICENSE IN LICENSE.md",
   "scripts": {
     "dev": "next dev -p 5173",
     "build": "next build",
